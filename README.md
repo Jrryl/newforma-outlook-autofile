@@ -40,6 +40,10 @@ Mail is only routed for projects where `status = active` **and** `enabled = TRUE
 - Newforma Project Center with the legacy add-in installed
 - VBA macros enabled (confirm macro security policy with IT before deploying)
 
+### Newforma setup
+
+The automation discovers projects through the **Newforma - Items to File** folder that the legacy add-in creates in your mailbox. For a project's staging and routing to work, the project must appear as a sub-folder under that parent, which requires it to be on your **My Projects** tab in Project Center. If a project is not showing up in the config file after a reconciliation run, check that it has been added to My Projects and that Newforma has synchronised, creating its folder in Outlook.
+
 ## Module structure
 
 | Module | Responsibility |
@@ -58,6 +62,11 @@ Mail is only routed for projects where `status = active` **and** `enabled = TRUE
 - ~90% accuracy accepted; per-project misfires are fixed by editing `match_terms` for that row.
 - Single-user, single-machine (a property of VBA).
 - Dependent on the Newforma legacy add-in's folder structure; a migration to the Newforma HTML5 add-in would remove that structure.
+
+## Future improvements
+
+- **Config file UI:** A user-friendly interface for viewing and editing the `.psv` config file — toggling projects on/off, editing match terms, and reviewing routing history — without needing to open a text file directly.
+- **Analogous terms expansion:** Automatically seed `match_terms` with common address abbreviation variants when a project name is first detected (e.g. Street → St., Square → Sq., Avenue → Ave., Road → Rd.), so address-based project names match regardless of how correspondents abbreviate them.
 
 ## Future: VSTO port
 
