@@ -1,10 +1,10 @@
-# Outlook Email Filing Automation
+# Outlook-Newforma Email Filing Automation
 
-A VBA automation that routes project email into the correct Newforma folders with minimal manual rule maintenance.
+A VBA automation that routes project email into the correct Newforma folders with minimal manual rule maintenance. 
 
 ## Overview
 
-Two workflows work together:
+Two workflows:
 
 - **Workflow 1 — Folder Detection:** Scans the Newforma "Items to File" folder structure, reconciles it against a configuration file, and keeps the config in sync as projects are added or archived.
 - **Workflow 2 — Staging & Release:** Routes incoming mail to a per-project staging folder, then releases it to the Newforma destination once the item has been read and any follow-up flag cleared.
@@ -12,7 +12,7 @@ Two workflows work together:
 ## How it works
 
 1. Email arrives in the Inbox.
-2. The engine checks the subject line against active projects in the config file.
+2. The script checks the subject line against active projects in the config file.
 3. A match routes the email to that project's staging folder.
 4. A timed sweep checks staged items — once an item is **read** and **not actively flagged**, it moves to the project's Newforma "Items to File" folder.
 5. Newforma files it to the project record on the next Synchronize.
@@ -59,15 +59,12 @@ The automation discovers projects through the **Newforma - Items to File** folde
 ## Limitations
 
 - Subject-line matching only — mail that never names the project in the subject is not routed automatically.
-- ~90% accuracy accepted; per-project misfires are fixed by editing `match_terms` for that row.
-- Single-user, single-machine (a property of VBA).
-- Dependent on the Newforma legacy add-in's folder structure; a migration to the Newforma HTML5 add-in would remove that structure.
+- Similar to traditional Outlook rules; per-project misfires are fixed by editing `match_terms` for that row.
+- Only works on your machine.
+- Dependent on the Newforma legacy add-in's folder structure; would not work on migration to the Newforma HTML5 add-in.
 
 ## Future improvements
 
 - **Config file UI:** A user-friendly interface for viewing and editing the `.psv` config file — toggling projects on/off, editing match terms, and reviewing routing history — without needing to open a text file directly.
 - **Analogous terms expansion:** Automatically seed `match_terms` with common address abbreviation variants when a project name is first detected (e.g. Street → St., Square → Sq., Avenue → Ave., Road → Rd.), so address-based project names match regardless of how correspondents abbreviate them.
-
-## Future: VSTO port
-
-The module structure is designed for a straightforward C# VSTO port. The configuration file format is language-agnostic and can be shared across both versions during a transition. See the design specification for full portability notes.
+- **VSTO port:** The module structure is designed for a straightforward C# VSTO port. The configuration file format is language-agnostic and can be shared across both versions during a transition. See the design specification for full portability notes.
