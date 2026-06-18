@@ -54,6 +54,7 @@ The automation discovers projects through the **Newforma - Items to File** folde
 | `Router` | Arrival routing — matches subject to staging folder |
 | `Sweeper` | Timed release of read/unflagged items; Inbox backstop scan |
 | `Common` | Shared folder-resolution and file-based logging helpers |
+| `Timer` | Win32 SetTimer plumbing that fires the periodic sweep tick (VBA6/VBA7 conditional compile) |
 | `ThisOutlookSession` | Entry points: startup, new-mail event, folder-added event, timer tick |
 
 ## Limitations
@@ -65,15 +66,15 @@ The automation discovers projects through the **Newforma - Items to File** folde
 
 ## Setup
 0. Ensure macros are allowed through Outlook Trust Center.
-1. In VBA for Applications, use File > Import (Ctrl-M) to import Common.bas, ConfigStore.bas, FolderScanner.bas, Reconciler.bas, Router.bas, Timer.bas
+1. In VBA for Applications, use File > Import (Ctrl-M) to import seven files: Common.bas, ConfigStore.bas, FolderScanner.bas, Reconciler.bas, Router.bas, Timer.bas, Sweeper.bas
 2. Insert two Class Modules called 'FolderWatcher' and 'ProjectConfig', making sure that the names under properties match. Copy the code from FolderWatcher.cls and ProjectConfig.cls
 3. Paste the code from ThisOutlookSession_additions.bas into ThisOutlookSession
 4. Restart Outlook. The Reconciler will look for all folders under 'Newforma - Items to File' and create a duplicate structure under 'Project Staging'. Or run "RunReconciliation" in the Immediate Window
-5. Configure the match_terms in /AppData/Roaming/OutlookAutoFile/projects.psv
+5. Configure the match_terms in %AppData%\OutlookAutoFile\projects.psv
 
 
 ## Future improvements
 
 - **Config file UI:** A user-friendly interface for viewing and editing the `.psv` config file — toggling projects on/off, editing match terms, and reviewing routing history — without needing to open a text file directly.
 - **Analogous terms expansion:** Automatically seed `match_terms` with common address abbreviation variants when a project name is first detected (e.g. Street → St., Square → Sq., Avenue → Ave., Road → Rd.), so address-based project names match regardless of how correspondents abbreviate them.
-- **VSTO port:** The module structure is designed for a straightforward C# VSTO port. The configuration file format is language-agnostic and can be shared across both versions during a transition. See the design specification for full portability notes.
+- **VSTO port:** The module structure is designed for a straightforward C# VSTO port. The configuration file format is language-agnostic and can be shared across both versions during a transition. Future implementation.
