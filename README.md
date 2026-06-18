@@ -67,7 +67,9 @@ The automation discovers projects through the **Newforma - Items to File** folde
 0. Ensure macros are allowed through Outlook Trust Center.
 1. In VBA for Applications, use File > Import (Ctrl-M) to import Common.bas, ConfigStore.bas, FolderScanner.bas, Reconciler.bas, Router.bas, Timer.bas
 2. Insert two Class Modules called 'FolderWatcher' and 'ProjectConfig', making sure that the names under properties match. Copy the code from FolderWatcher.cls and ProjectConfig.cls
-3. Restart Outlook.
+3. Paste the code from ThisOutlookSession_additions.bas into ThisOutlookSession
+4. Restart Outlook. The Reconciler will look for all folders under 'Newforma - Items to File' and create a duplicate structure under 'Project Staging'. Or run "RunReconciliation" in the Immediate Window
+5. Configure the match_terms in /AppData/Roaming/OutlookAutoFile/projects.psv
 
 
 ## Future improvements
