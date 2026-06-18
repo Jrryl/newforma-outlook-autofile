@@ -1,15 +1,15 @@
 # Outlook-Newforma Email Filing Automation
 
-A VBA automation that routes project email into the correct Newforma folders with minimal manual rule maintenance. 
+A VBA automation that routes project email into the correct Newforma folders using dynamically created matching terms (project names and numbers), eliminating the need to create new rules through the traditional Outlook rule manager for each project. 
 
 ## Overview
 
 Two workflows:
 
-- **Workflow 1 — Folder Detection:** Scans the Newforma "Items to File" folder structure, reconciles it against a configuration file, and keeps the config in sync as projects are added or archived.
-- **Workflow 2 — Staging & Release:** Routes incoming mail to a per-project staging folder, then releases it to the Newforma destination once the item has been read and any follow-up flag cleared.
+- 1 — Folder Detection: Scans the Newforma "Items to File" folder structure, reconciles it against a configuration file, and keeps the config in sync as projects are added or archived.
+- 2 — Staging & Release: Routes incoming mail to a per-project staging folder, then releases it to the Newforma destination once the item has been read and any follow-up flag cleared.
 
-## How it works
+## Workflow
 
 1. Email arrives in the Inbox.
 2. The script checks the subject line against active projects in the config file.
@@ -58,10 +58,17 @@ The automation discovers projects through the **Newforma - Items to File** folde
 
 ## Limitations
 
-- Subject-line matching only — mail that never names the project in the subject is not routed automatically.
+- Subject-line matching only: mail that never names the project in the subject is not routed automatically.
 - Similar to traditional Outlook rules; per-project misfires are fixed by editing `match_terms` for that row.
 - Only works on your machine.
 - Dependent on the Newforma legacy add-in's folder structure; would not work on migration to the Newforma HTML5 add-in.
+
+## Setup
+0. Ensure macros are allowed through Outlook Trust Center.
+1. In VBA for Applications, use File > Import (Ctrl-M) to import Common.bas, ConfigStore.bas, FolderScanner.bas, Reconciler.bas, Router.bas, Timer.bas
+2. Insert two Class Modules called 'FolderWatcher' and 'ProjectConfig', making sure that the names under properties match. Copy the code from FolderWatcher.cls and ProjectConfig.cls
+3. Restart Outlook.
+
 
 ## Future improvements
 
