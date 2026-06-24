@@ -1,0 +1,57 @@
+Option Explicit
+
+' Paste this into the code window of frmControlPanel AFTER placing controls
+' in the VBE designer. See README "Control Panel" section for the layout.
+' Controls are referenced by name — no programmatic creation needed.
+
+Private Sub cmdReconcile_Click()
+    On Error GoTo Fail
+    lblStatus.Caption = "Running Reconciliation..."
+    DoEvents
+    RunReconciliation
+    lblStatus.Caption = "Reconciliation complete."
+    RefreshDisplay
+    Exit Sub
+Fail:
+    lblStatus.Caption = "Error: " & Err.Description
+End Sub
+
+Private Sub cmdRoute_Click()
+    On Error GoTo Fail
+    lblStatus.Caption = "Routing Inbox items..."
+    DoEvents
+    RouteInboxItems
+    lblStatus.Caption = "Routing complete."
+    RefreshDisplay
+    Exit Sub
+Fail:
+    lblStatus.Caption = "Error: " & Err.Description
+End Sub
+
+Private Sub cmdSweep_Click()
+    On Error GoTo Fail
+    lblStatus.Caption = "Running Sweep..."
+    DoEvents
+    RunSweep
+    lblStatus.Caption = "Sweep complete."
+    RefreshDisplay
+    Exit Sub
+Fail:
+    lblStatus.Caption = "Error: " & Err.Description
+End Sub
+
+Private Sub UserForm_QueryClose(Cancel As Integer, CloseMode As Integer)
+    OnPanelClosed
+End Sub
+
+Public Sub RefreshDisplay()
+    On Error Resume Next
+    Dim snap As StatsSnapshot
+    snap = ReadStats()
+    lblTodayRouted.Caption = "Today routed:    " & snap.TodayRouted
+    lblTodaySwept.Caption  = "Today swept:     " & snap.TodaySwept
+    lblLifeRouted.Caption  = "Lifetime routed: " & snap.LifeRouted
+    lblLifeSwept.Caption   = "Lifetime swept:  " & snap.LifeSwept
+    lblUpdated.Caption     = "Updated: " & Format(Now, "hh:mm:ss")
+    On Error GoTo 0
+End Sub

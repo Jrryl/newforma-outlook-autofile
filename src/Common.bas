@@ -17,6 +17,10 @@ Public Function LogFilePath() As String
     LogFilePath = AppDataFolder() & "\autofile.log"
 End Function
 
+Public Function StatsFilePath() As String
+    StatsFilePath = AppDataFolder() & "\stats.psv"
+End Function
+
 Private Function AppDataFolder() As String
     Dim p As String
     p = Environ("APPDATA") & "\" & APP_FOLDER

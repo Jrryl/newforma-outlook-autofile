@@ -77,6 +77,7 @@ Private Sub ReleaseFromStaging(cfg As ProjectConfig)
             If Not mail.UnRead And mail.FlagStatus <> olFlagMarked Then
                 LogInfo "Sweeper: releasing """ & mail.Subject & """ for " & cfg.ProjectNo
                 mail.Move destFolder
+                RecordSwept
             End If
         End If
     Next i

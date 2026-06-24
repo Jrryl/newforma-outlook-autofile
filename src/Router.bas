@@ -47,6 +47,7 @@ Public Sub RouteItem(mail As Outlook.MailItem, rows As Collection)
                 If Not dest Is Nothing Then
                     LogInfo "Router: moving """ & mail.Subject & """ to staging for " & cfg.ProjectNo
                     mail.Move dest
+                    RecordRouted
                 Else
                     LogWarn "Router: staging folder not found for " & cfg.ProjectNo
                 End If
